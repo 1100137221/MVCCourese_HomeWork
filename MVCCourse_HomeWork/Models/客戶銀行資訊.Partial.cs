@@ -21,6 +21,7 @@ namespace MVCCourse_HomeWork.Models
         public string 銀行名稱 { get; set; }
         [Required]
         public int 銀行代碼 { get; set; }
+        [Required]
         public Nullable<int> 分行代碼 { get; set; }
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]

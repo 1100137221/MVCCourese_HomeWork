@@ -24,6 +24,8 @@ namespace MVCCourse_HomeWork.Controllers
                 data = data.Where(p => p.客戶名稱.Contains(customerName));
             }
 
+            ViewBag.customerName = customerName;
+
             return View(data.ToList());
         }
 
@@ -40,7 +42,7 @@ namespace MVCCourse_HomeWork.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.find(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -63,8 +65,8 @@ namespace MVCCourse_HomeWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(客戶資料);
-                db.SaveChanges();
+                repo.Add(客戶資料);
+                repo.Save();
                 return RedirectToAction("Index");
             }
 
@@ -78,7 +80,7 @@ namespace MVCCourse_HomeWork.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.find(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -109,7 +111,7 @@ namespace MVCCourse_HomeWork.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.find(id.Value);
             if (客戶資料 == null)
             {
                 return HttpNotFound();
@@ -122,9 +124,9 @@ namespace MVCCourse_HomeWork.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
+            客戶資料 客戶資料 = repo.find(id);
             客戶資料.Is刪除 = true;
-            db.SaveChanges();
+            repo.Save();
             return RedirectToAction("Index");
         }
 

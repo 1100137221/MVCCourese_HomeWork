@@ -8,7 +8,7 @@
 @using (Html.BeginForm("Index", "客戶資料"))
 {
     <div>
-        客戶名稱:<input type="text" name="customerName" /><br />
+        客戶名稱:<input type="text" value="@ViewBag.customerName.ToString()" name="customerName" /><br />
         <input type="submit" value="搜尋" />
     </div>
 }

@@ -20,18 +20,24 @@ namespace MVCCourse_HomeWork.Models
         
         [StringLength(8, ErrorMessage="欄位長度不得大於 8 個字元")]
         [Required]
+        [RegularExpression(@"\d{8}", ErrorMessage = "請輸入統一編號格式")]
         public string 統一編號 { get; set; }
         
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         [Required]
+        [RegularExpression(@"\d{4}-\d{6}",ErrorMessage ="請輸入手機格式,範例:0911-123456")]
         public string 電話 { get; set; }
-        
+
+        [Required]
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         public string 傳真 { get; set; }
-        
+
+        [Required]
         [StringLength(100, ErrorMessage="欄位長度不得大於 100 個字元")]
         public string 地址 { get; set; }
-        
+
+        [Required]
+        [EmailAddress]
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         public string Email { get; set; }
         [Required]

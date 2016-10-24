@@ -5,7 +5,13 @@
 }
 
 <h2>Index</h2>
-
+@using (Html.BeginForm("Index", "客戶銀行資訊"))
+{
+    <div>
+        銀行名稱:<input type="text" value="@ViewBag.bankName.ToString()" name="bankName" /><br />
+        <input type="submit" value="搜尋" />
+    </div>
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>

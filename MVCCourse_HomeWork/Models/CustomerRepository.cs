@@ -11,6 +11,11 @@ namespace MVCCourse_HomeWork.Models
         {
             return base.All().Where(p=>!p.Is刪除);
         }
+
+        public 客戶資料 find(int id)
+        {
+            return All().FirstOrDefault(p => p.Id == id);
+        }
     }
 
     public interface ICustomerRepository : IRepository<客戶資料> {
