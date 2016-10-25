@@ -19,7 +19,7 @@ namespace MVCCourse_HomeWork.Controllers
         // GET: 客戶銀行資訊
         public ActionResult Index(string bankName = "")
         {
-            var data = repo.All();
+            var data = repo.All().Where(p => !p.客戶資料.Is刪除); ;
             if (!string.IsNullOrEmpty(bankName))
             {
                 data = data.Where(p => p.銀行名稱.Contains(bankName));
