@@ -12,7 +12,6 @@ namespace MVCCourse_HomeWork.Controllers
 {
     public class 客戶銀行資訊Controller : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
         private CustomerBankRepository repo = new CustomerBankRepository();
         private CustomerRepository customerRepo = new CustomerRepository();
 
@@ -89,23 +88,16 @@ namespace MVCCourse_HomeWork.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(客戶銀行資訊 客戶銀行資訊)
+        public ActionResult Edit(int id)
         {
 
-            客戶銀行資訊 product = repo.find(客戶銀行資訊.Id);
+            客戶銀行資訊 客戶銀行資訊 = repo.find(id);
             if (TryUpdateModel(客戶銀行資訊, new string[] { "Id", "客戶Id", "銀行名稱", "銀行代碼", "分行代碼", "帳戶名稱", "帳戶號碼" }))
             {
                 repo.Save();
                 return RedirectToAction("Index");
             }
-
-            //if (ModelState.IsValid)
-            //{
-            //    db.Entry(客戶銀行資訊).State = EntityState.Modified;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-
+            
             ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
         }
@@ -135,14 +127,6 @@ namespace MVCCourse_HomeWork.Controllers
             repo.Save();
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

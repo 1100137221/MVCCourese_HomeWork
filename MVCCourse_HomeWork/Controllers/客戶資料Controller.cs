@@ -93,12 +93,12 @@ namespace MVCCourse_HomeWork.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
+        public ActionResult Edit(int id)
         {
-            if (ModelState.IsValid)
+            客戶資料 客戶資料 = repo.find(id);
+            if(TryUpdateModel(客戶資料, new string[] { "Id", "客戶名稱", "統一編號", "電話", "傳真", "地址", "Email" }))
             {
-                db.Entry(客戶資料).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.Save();
                 return RedirectToAction("Index");
             }
             return View(客戶資料);
@@ -129,14 +129,6 @@ namespace MVCCourse_HomeWork.Controllers
             repo.Save();
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

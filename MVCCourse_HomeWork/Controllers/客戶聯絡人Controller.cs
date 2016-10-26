@@ -12,7 +12,6 @@ namespace MVCCourse_HomeWork.Controllers
 {
     public class 客戶聯絡人Controller : Controller
     {
-        private 客戶資料Entities db = new 客戶資料Entities();
         private CustomerCotactRepository repo = new CustomerCotactRepository();
         private CustomerRepository customerRepo = new CustomerRepository();
 
@@ -84,12 +83,12 @@ namespace MVCCourse_HomeWork.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶Id,職稱,姓名,Email,手機,電話")] 客戶聯絡人 客戶聯絡人)
+        public ActionResult Edit(int id)
         {
-            if (ModelState.IsValid)
+            客戶聯絡人 客戶聯絡人 = repo.find(id);
+            if (TryUpdateModel(客戶聯絡人,new string[] { "Id", "客戶Id", "職稱", "姓名", "Email", "手機", "電話" }))
             {
-                db.Entry(客戶聯絡人).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.Save();
                 return RedirectToAction("Index");
             }
             ViewBag.客戶Id = new SelectList(customerRepo.All(), "Id", "客戶名稱", 客戶聯絡人.客戶Id);
@@ -121,14 +120,6 @@ namespace MVCCourse_HomeWork.Controllers
             repo.Save();
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }
