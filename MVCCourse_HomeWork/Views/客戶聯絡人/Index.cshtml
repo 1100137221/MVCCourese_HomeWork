@@ -5,7 +5,13 @@
 }
 
 <h2>Index</h2>
+@using (Html.BeginForm("Index", "客戶聯絡人", FormMethod.Get, new { id = "form1" }))
+{
+    <div>
+        暱稱:<input type="text" value="@ViewBag.nickName.ToString()" name="nickName" onchange="$('#form1').submit();" /><br />
 
+    </div>
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>

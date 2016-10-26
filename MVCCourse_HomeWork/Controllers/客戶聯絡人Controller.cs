@@ -16,9 +16,14 @@ namespace MVCCourse_HomeWork.Controllers
         private CustomerRepository customerRepo = new CustomerRepository();
 
         // GET: 客戶聯絡人
-        public ActionResult Index()
+        public ActionResult Index(string nickName = "")
         {
-            var data = repo.All();
+            var data = repo.All().Where(p=>!p.客戶資料.Is刪除);
+            if (!string.IsNullOrEmpty(nickName))
+            {
+                data = data.Where(p => p.職稱.Contains(nickName));
+            }
+            ViewBag.nickName = nickName;
             return View(data.ToList());
         }
 
