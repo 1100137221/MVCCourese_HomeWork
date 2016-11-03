@@ -1,48 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using System.Linq.Expressions;
 
 namespace MVCCourse_HomeWork.Models
 {
-    public abstract class EFRepository<T> : IRepository<T> where T:class
-    {
-        客戶資料Entities db = new 客戶資料Entities();
+	public class EFRepository<T> : IRepository<T> where T : class
+	{
+		public IUnitOfWork UnitOfWork { get; set; }
+		
+		private IDbSet<T> _objectset;
+		private IDbSet<T> ObjectSet
+		{
+			get
+			{
+				if (_objectset == null)
+				{
+					_objectset = UnitOfWork.Context.Set<T>();
+				}
+				return _objectset;
+			}
+		}
 
-        private IDbSet<T> _objSet;
-        public IDbSet<T> ObjSet {
-            get {
-                _objSet = db.Set<T>();
-                return _objSet;
-            }
-        }
-        
-        public virtual IQueryable<T> All()
-        {
-            return ObjSet.AsQueryable();
-        }
+		public virtual IQueryable<T> All()
+		{
+			return ObjectSet.AsQueryable();
+		}
 
-        public IQueryable<T> Where(System.Linq.Expressions.Expression<Func<T, bool>> expression)
-        {
-            return All().Where(expression);
-        }
+		public IQueryable<T> Where(Expression<Func<T, bool>> expression)
+		{
+			return ObjectSet.Where(expression);
+		}
 
-        public void Add(T entity)
-        {
-            ObjSet.Add(entity);
-        }
-        
-        public void Delete(T entity)
-        {
-            ObjSet.Remove(entity);
-        }
+		public virtual void Add(T entity)
+		{
+			ObjectSet.Add(entity);
+		}
 
-        public void Save()
-        {
-            db.SaveChanges();
-        }
+		public virtual void Delete(T entity)
+		{
+			ObjectSet.Remove(entity);
+		}
 
-        
-    }
+	}
 }

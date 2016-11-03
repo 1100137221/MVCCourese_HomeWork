@@ -13,8 +13,8 @@ namespace MVCCourse_HomeWork.Controllers
     public class 客戶聯絡人Controller : Controller
     {
         private 客戶資料Entities db = new 客戶資料Entities();
-        private CustomerCotactRepository repo = new CustomerCotactRepository();
-        private CustomerRepository customerRepo = new CustomerRepository();
+        private 客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
+        private 客戶資料Repository customerRepo = RepositoryHelper.Get客戶資料Repository();
 
         // GET: 客戶聯絡人
         public ActionResult Index(string nickName = "")
@@ -60,7 +60,7 @@ namespace MVCCourse_HomeWork.Controllers
             if (ModelState.IsValid)
             {
                 repo.Add(客戶聯絡人);
-                repo.Save();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -123,7 +123,7 @@ namespace MVCCourse_HomeWork.Controllers
         {
             客戶聯絡人 客戶聯絡人 = repo.find(id);
             客戶聯絡人.Is刪除 = true;
-            repo.Save();
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 

@@ -8,17 +8,30 @@ namespace MVCCourse_HomeWork.Controllers
 {
     public class HomeController : Controller
     {
+        //UNDONE: QQ
         public ActionResult Index()
         {
             return View();
         }
 
+        //TODO: TEST
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
+            var str = "";
+            str += "                                    " ;
+            str += "                                    " ;
+            str += "                                    " ;
+            str += "                                    " ;
+            str += "                                    " ;
+            str += "                                    " ;
+
+
+
             return View();
         }
+        
 
         public ActionResult Contact()
         {

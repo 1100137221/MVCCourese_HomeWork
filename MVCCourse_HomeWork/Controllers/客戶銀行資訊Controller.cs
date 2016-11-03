@@ -13,8 +13,8 @@ namespace MVCCourse_HomeWork.Controllers
     public class 客戶銀行資訊Controller : Controller
     {
         private 客戶資料Entities db = new 客戶資料Entities();
-        private CustomerBankRepository repo = new CustomerBankRepository();
-        private CustomerRepository customerRepo = new CustomerRepository();
+        private 客戶銀行資訊Repository repo = RepositoryHelper.Get客戶銀行資訊Repository();
+        private 客戶資料Repository customerRepo = RepositoryHelper.Get客戶資料Repository();
 
         // GET: 客戶銀行資訊
         public ActionResult Index(string bankName = "")
@@ -60,7 +60,7 @@ namespace MVCCourse_HomeWork.Controllers
             if (ModelState.IsValid)
             {
                 repo.Add(客戶銀行資訊);
-                repo.Save();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -95,7 +95,7 @@ namespace MVCCourse_HomeWork.Controllers
             客戶銀行資訊 product = repo.find(客戶銀行資訊.Id);
             if (TryUpdateModel(客戶銀行資訊, new string[] { "Id", "客戶Id", "銀行名稱", "銀行代碼", "分行代碼", "帳戶名稱", "帳戶號碼" }))
             {
-                repo.Save();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -132,7 +132,7 @@ namespace MVCCourse_HomeWork.Controllers
         {
             客戶銀行資訊 客戶銀行資訊 = repo.find(id);
             客戶銀行資訊.Is刪除 = true;
-            repo.Save();
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 

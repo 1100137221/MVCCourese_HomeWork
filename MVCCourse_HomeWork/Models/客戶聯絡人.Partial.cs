@@ -10,8 +10,8 @@ namespace MVCCourse_HomeWork.Models
         
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            CustomerCotactRepository repo = new CustomerCotactRepository();
-            if(repo.All().Any(p => p.Email.Contains(this.Email) && p.客戶Id==this.客戶Id))
+            客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
+            if (repo.All().Any(p => p.Email.Contains(this.Email) && p.客戶Id==this.客戶Id))
             {
                 yield return new ValidationResult("此客戶下的 Email 已經被註冊過了!",
                     new string[] { "Email" });
