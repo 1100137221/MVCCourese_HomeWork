@@ -97,6 +97,32 @@ namespace MVCCourse_HomeWork.Controllers
             return View();
         }
 
+        public ActionResult EditProfile(int id)
+        {
+            客戶資料 客戶資料 = repo.find(id);
+            客戶資料.password = "";
+            if (客戶資料 == null)
+            {
+                return HttpNotFound();
+            }
+            return View(客戶資料);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(int id,FormCollection form)
+        {
+            客戶資料 客戶資料 = repo.find(id);
+            if (TryUpdateModel(客戶資料, null
+                , new string[] { "電話", "傳真", "地址", "Email", "password" }
+                ))
+            {
+                客戶資料.password = SHA256(form["password"]);
+                repo.UnitOfWork.Commit();
+                return RedirectToAction("Index");
+            }
+            return View(客戶資料);
+        }
+
         public ActionResult Logout()
         {
             Session.Abandon();
@@ -171,7 +197,9 @@ namespace MVCCourse_HomeWork.Controllers
         public ActionResult Edit(int id)
         {
             客戶資料 客戶資料 = repo.find(id);
-            if(TryUpdateModel(客戶資料, new string[] { "Id", "客戶名稱", "統一編號", "電話", "傳真", "地址", "Email" }))
+            if(TryUpdateModel(客戶資料,null
+                , new string[] { "Id", "客戶名稱", "統一編號", "電話", "傳真", "地址", "Email" }
+                ))
             {
                 repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");

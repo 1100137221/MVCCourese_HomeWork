@@ -44,6 +44,7 @@ namespace MVCCourse_HomeWork.Models
         public bool Is刪除 { get; set; }
         [Required]
         public string account { get; set; }
+        [DataType(DataType.Password)]
         [Required]
         public string password { get; set; }
         public virtual ICollection<客戶銀行資訊> 客戶銀行資訊 { get; set; }

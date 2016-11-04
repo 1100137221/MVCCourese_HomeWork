@@ -604,6 +604,7 @@
     <Content Include="Views\Shared\_BoostrapLayout.cshtml" />
     <Content Include="Views\客戶聯絡人\test.cshtml" />
     <Content Include="Views\客戶資料\Login.cshtml" />
+    <Content Include="Views\客戶資料\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
