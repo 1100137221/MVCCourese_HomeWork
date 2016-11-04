@@ -2,8 +2,11 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BoostrapLayout.cshtml";
 }
-
+@section breadcrumb{
+    <a href="@Url.Action("Index", "客戶資料")">客戶資料</a>
+}
 <h2>Index</h2>
 @using (Html.BeginForm("Index", "客戶資料",FormMethod.Get, new { id = "form1" }))
 {
@@ -68,3 +71,6 @@
 }
 
 </table>
+@Html.PagedListPager(Model as IPagedList,
+ p => Url.Action("Index", new { page = p }))
+<link href="~/Content/PagedList.css" rel="stylesheet" />

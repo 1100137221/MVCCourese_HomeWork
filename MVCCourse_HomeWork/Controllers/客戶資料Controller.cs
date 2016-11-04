@@ -7,16 +7,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCCourse_HomeWork.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace MVCCourse_HomeWork.Controllers
 {
-    public class 客戶資料Controller : Controller
+    public class 客戶資料Controller : BaseController
     {
         private 客戶資料Entities db = new 客戶資料Entities();
         private 客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
 
         // GET: 客戶資料
-        public ActionResult Index(string customerName = "")
+        public ActionResult Index(string customerName = "",int page =1)
         {
             var data = repo.All();
             if (!String.IsNullOrEmpty(customerName))
@@ -24,9 +26,11 @@ namespace MVCCourse_HomeWork.Controllers
                 data = data.Where(p => p.客戶名稱.Contains(customerName));
             }
 
+            data = data.OrderBy(p=>p.Id);
+
             ViewBag.customerName = customerName;
 
-            return View(data.ToList());
+            return View(data.ToPagedList(page, pageSize));
         }
 
         public ActionResult CustomerList()
@@ -98,7 +102,7 @@ namespace MVCCourse_HomeWork.Controllers
             客戶資料 客戶資料 = repo.find(id);
             if(TryUpdateModel(客戶資料, new string[] { "Id", "客戶名稱", "統一編號", "電話", "傳真", "地址", "Email" }))
             {
-                repo.Save();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             return View(客戶資料);

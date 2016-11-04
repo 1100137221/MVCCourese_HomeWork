@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<MVCCourse_HomeWork.Models.客戶銀行資訊>
 
 @{
+    Layout = "~/Views/Shared/_BoostrapLayout.cshtml";
     ViewBag.Title = "Index";
+}
+
+@section breadcrumb{
+    <a href="@Url.Action("Index", "客戶銀行資訊")">客戶銀行資訊</a>
 }
 
 <h2>Index</h2>
@@ -67,3 +72,6 @@
 }
 
 </table>
+@Html.PagedListPager(Model as IPagedList,
+ p => Url.Action("Index", new { page = p }))
+<link href="~/Content/PagedList.css" rel="stylesheet" />

@@ -7,25 +7,33 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCCourse_HomeWork.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace MVCCourse_HomeWork.Controllers
 {
-    public class 客戶聯絡人Controller : Controller
+    public class 客戶聯絡人Controller : BaseController
     {
         private 客戶資料Entities db = new 客戶資料Entities();
         private 客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
         private 客戶資料Repository customerRepo = RepositoryHelper.Get客戶資料Repository();
 
         // GET: 客戶聯絡人
-        public ActionResult Index(string nickName = "")
+        public ActionResult Index(string nickName = "", int page = 1)
         {
             var data = repo.All().Where(p=>!p.客戶資料.Is刪除);
             if (!string.IsNullOrEmpty(nickName))
             {
                 data = data.Where(p => p.職稱.Contains(nickName));
             }
+            data = data.OrderBy(p => p.Id);
             ViewBag.nickName = nickName;
-            return View(data.ToList());
+            return View(data.ToPagedList(page, pageSize));
+        }
+
+        public ActionResult test()
+        {
+            return View();
         }
 
         // GET: 客戶聯絡人/Details/5
