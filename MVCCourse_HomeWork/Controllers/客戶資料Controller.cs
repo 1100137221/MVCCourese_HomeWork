@@ -72,7 +72,36 @@ namespace MVCCourse_HomeWork.Controllers
             return File(SavePath, "application/excel","Report.xlsx");
         }
 
-        
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(客戶資料 客戶資料,FormCollection form)
+        {
+            if(form["account"] != "" && form["password"] != "")
+            {
+                string pwd = SHA256(form["password"]);
+                string account = form["account"];
+                if (repo.All().Where(p=>p.account == account && p.password==pwd).Any())
+                {
+                    Session["User"] = repo.All().Where(p => p.account == account && p.password == pwd).FirstOrDefault();
+                    return RedirectToAction("Index","Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "帳號或密碼錯誤");
+                }
+            }
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index");
+        }
 
         public ActionResult CustomerList()
         {
@@ -106,10 +135,11 @@ namespace MVCCourse_HomeWork.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email")] 客戶資料 客戶資料)
+        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,account,password")] 客戶資料 客戶資料,FormCollection form)
         {
             if (ModelState.IsValid)
             {
+                客戶資料.password = SHA256(form["password"]);
                 repo.Add(客戶資料);
                 repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");

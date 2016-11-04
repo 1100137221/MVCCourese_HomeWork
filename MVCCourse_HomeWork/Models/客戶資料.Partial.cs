@@ -42,7 +42,10 @@ namespace MVCCourse_HomeWork.Models
         public string Email { get; set; }
         [Required]
         public bool Is刪除 { get; set; }
-    
+        [Required]
+        public string account { get; set; }
+        [Required]
+        public string password { get; set; }
         public virtual ICollection<客戶銀行資訊> 客戶銀行資訊 { get; set; }
         public virtual ICollection<客戶聯絡人> 客戶聯絡人 { get; set; }
     }

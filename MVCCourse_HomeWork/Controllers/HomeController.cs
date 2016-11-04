@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCCourse_HomeWork.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MVCCourse_HomeWork.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         //UNDONE: QQ
         public ActionResult Index()
