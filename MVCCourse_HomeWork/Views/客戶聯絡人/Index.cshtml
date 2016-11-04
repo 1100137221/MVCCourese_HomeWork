@@ -72,6 +72,14 @@
 }
 
 </table>
+
+<div>
+    @using (Html.BeginForm("DownloadExcel", "客戶聯絡人"))
+    {
+        <input type="submit" value="下載客戶聯絡人 Excel" />
+    }
+</div>
+
 @Html.PagedListPager(Model as IPagedList,
  p => Url.Action("Index", new { page = p }))
 <link href="~/Content/PagedList.css" rel="stylesheet" />

@@ -8,7 +8,7 @@
     <a href="@Url.Action("Index", "客戶資料")">客戶資料</a>
 }
 <h2>Index</h2>
-@using (Html.BeginForm("Index", "客戶資料",FormMethod.Get, new { id = "form1" }))
+@using (Html.BeginForm("Index", "客戶資料", FormMethod.Get, new { id = "form1" }))
 {
     <div>
         客戶名稱:<input type="text" value="@ViewBag.customerName.ToString()" name="customerName" onchange="$('#form1').submit();" /><br />
@@ -42,35 +42,43 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.客戶名稱)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.統一編號)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.電話)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.傳真)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.地址)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.統一編號)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.電話)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.傳真)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.地址)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+<div>
+    @using (Html.BeginForm("DownloadExcel", "客戶資料"))
+    {
+        <input type="submit" value="下載客戶資料 Excel" />
+    }
+</div>
 @Html.PagedListPager(Model as IPagedList,
  p => Url.Action("Index", new { page = p }))
 <link href="~/Content/PagedList.css" rel="stylesheet" />
+

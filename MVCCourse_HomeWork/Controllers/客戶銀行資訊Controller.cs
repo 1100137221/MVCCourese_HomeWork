@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using MVCCourse_HomeWork.Models;
 using PagedList.Mvc;
 using PagedList;
+using System.IO;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace MVCCourse_HomeWork.Controllers
 {
@@ -30,6 +33,42 @@ namespace MVCCourse_HomeWork.Controllers
             data = data.OrderBy(p => p.Id);
             ViewBag.bankName = bankName;
             return View(data.ToPagedList(page, pageSize));
+        }
+
+        [HttpPost]
+        public ActionResult DownloadExcel()
+        {
+            var data = repo.All();
+            //讀取檔案
+            string ExcelPath = Server.MapPath("~/excel/客戶銀行資訊.xlsx");
+            FileStream Template = new FileStream(ExcelPath, FileMode.Open, FileAccess.Read);
+            IWorkbook workbook = new XSSFWorkbook(Template);
+            Template.Close();
+
+            //取得 Excel 的第一個頁籤
+            ISheet _sheet = workbook.GetSheetAt(0);
+            ICellStyle CellStyle = _sheet.GetRow(0).Cells[0].CellStyle;
+
+            //塞資料
+            int currentRow = 1;
+            foreach (var item in data)
+            {
+                IRow MyRow = _sheet.CreateRow(currentRow);
+                CreateCell(item.銀行名稱, MyRow, 0, CellStyle);
+                CreateCell(item.銀行代碼.ToString(), MyRow, 1, CellStyle);
+                CreateCell(item.分行代碼.ToString(), MyRow, 2, CellStyle);
+                CreateCell(item.帳戶名稱, MyRow, 3, CellStyle);
+                CreateCell(item.帳戶號碼, MyRow, 4, CellStyle);
+                CreateCell(item.客戶資料.客戶名稱, MyRow, 5, CellStyle);
+                currentRow++;
+            }
+
+            string SavePath = @"D:/ReportCunstomerBank.xlsx";
+            FileStream file = new FileStream(SavePath, FileMode.Create);
+            workbook.Write(file);
+            file.Close();
+
+            return File(SavePath, "application/excel", "ReportCunstomerBank.xlsx");
         }
 
         // GET: 客戶銀行資訊/Details/5
